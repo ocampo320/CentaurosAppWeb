@@ -16,7 +16,7 @@ class ApiBaseSource {
   final MyConnectivity? connectivity;
   final String? token;
 
-  final Duration timeout = Duration(seconds: 30);
+  final Duration timeout = Duration(seconds: 60);
 
   ApiBaseSource(this.baseUrl, this.client, this.connectivity, this.token);
 

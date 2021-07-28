@@ -35,7 +35,10 @@ dependencies:
   http: ^0.13.3
   connectivity: ^3.0.6
   rxdart: ^0.27.1
+  google_fonts: ^2.0.0
   path_provider: ^2.0.2
+  flip_card: ^0.5.0
+  shimmer: ^2.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

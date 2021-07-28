@@ -35,4 +35,21 @@ class UserApiSourceImpl extends ApiBaseSource implements UserApiSourcer {
       },
     );
   }
+
+  @override
+  Future<Result<User>> getUserByCc(String cc) {
+    var url = 'https://centauros.herokuapp.com/centauro/user/id/$cc';
+    return get<User>(url, (value) {
+      print("Datos de usuario $value");
+      return User.fromJson(value);
+    });
+  }
+
+  @override
+  Future<Result<User>> addUser(User user) {
+    var url = 'https://centauros.herokuapp.com/centauro/user/add';
+    return post(url, user.toJson(), (value) {
+      return value;
+    });
+  }
 }
