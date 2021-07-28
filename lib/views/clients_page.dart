@@ -24,8 +24,23 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
   @override
   void initState() {
     super.initState();
+    _controller = ScrollController();
+    _controller!.addListener(_scrollListener);
     setState(() {
       // bloc!.getUser();
+      loadData();
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller!.dispose();
+  }
+
+  _scrollListener() {
+    setState(() {
+      bloc!.getUser().then((value) {});
       loadData();
     });
   }
@@ -35,6 +50,7 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
       isLoading = true;
     });
     await Future.delayed(Duration(seconds: 2));
+    buildMovieShimmer();
     bloc!.getUser();
     setState(() {
       isLoading = false;
@@ -43,8 +59,7 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
 
   bool isLoading = false;
   var trasform;
-
-  List<TextEditingController> lisControllers = [];
+  ScrollController? _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -306,7 +321,12 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
                 TextButton(
                   child: Text('Agregar'),
                   onPressed: () {
-                    Navigator.of(context).pop();
+                    setState(() {
+                      bloc!.mapToUser(bloc!.userSingleton).then((value) {
+                        loadData();
+                        Navigator.of(context).pop();
+                      });
+                    });
                   },
                 ),
                 TextButton(

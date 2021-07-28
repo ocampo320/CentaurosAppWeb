@@ -1,4 +1,6 @@
 class User {
+  static User? singleton;
+
   int? idClient;
   String? identificationClient;
   String? typeIdentification;
@@ -13,7 +15,7 @@ class User {
   String? typeContract;
   String? email;
 
-  User(
+  User.initial(
       {this.idClient,
       this.identificationClient,
       this.typeIdentification,
@@ -27,6 +29,13 @@ class User {
       this.expenses,
       this.typeContract,
       this.email});
+
+  factory User() {
+    if (singleton == null) {
+      singleton = User.initial();
+    }
+    return singleton!;
+  }
 
   User.fromJson(Map<String, dynamic> json) {
     idClient = json['idClient'];

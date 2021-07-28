@@ -48,8 +48,13 @@ class UserApiSourceImpl extends ApiBaseSource implements UserApiSourcer {
   @override
   Future<Result<User>> addUser(User user) {
     var url = 'https://centauros.herokuapp.com/centauro/user/add';
-    return post(url, user.toJson(), (value) {
-      return value;
+    return post<User>(url, 
+    user.toJson(),
+    (value) {
+      var response=User();
+      print("Se guardo el usuario ${user.toJson()}");
+      return response;
     });
+    
   }
 }

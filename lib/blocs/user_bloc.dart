@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:centauros_app/blocs/provider/bloc.dart';
 import 'package:centauros_app/data_source/api/user_api_source.dart';
 import 'package:domain/users_use_case.dart';
@@ -10,6 +12,8 @@ class UserBloc with Bloc {
   final UserUseCase _userUseCase;
   UserApiSourceImpl? apiSourceImpl;
 
+  User? userSingleton;
+
   final _userListSubject = BehaviorSubject<List<User>>();
   final _userSubject = BehaviorSubject<User>();
 
@@ -19,12 +23,15 @@ class UserBloc with Bloc {
   Sink<User> get userSink => _userSubject.sink;
 
   UserBloc(this._userUseCase) {
+    userSingleton=User();
     isDataUser = false;
   }
 
   bool isDataUser = false;
 
   Future<Result<List<User>>> getUser() async {
+
+
     var result = _userUseCase.getUserList();
     result.then((value) {
       _userListSubject.value = value.data!;
@@ -45,14 +52,21 @@ class UserBloc with Bloc {
 
 
 
-  bool mapToUser(User? user) {
-    var isOK;
-    _userUseCase.addUser(user!).then((value) {
-      if (value.status == Status.success) {
-        isOK = true;
-      }
+  Future<Result<User>> mapToUser(User? user) {
+        var rng = new Random();
+        userSingleton!.idClient=rng.nextInt(1);
+    var result= _userUseCase.addUser(user!);
+    result.then((value) {
+     if(value.status==Status.success){
+       print("Se guardo completo ${value.data!.toJson()}");
+     }else{
+       print("No Se guardo $result");
+
+     }
+
     });
-    return isOK;
+    return result;
+    
   }
 
   @override

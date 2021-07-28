@@ -57,7 +57,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Cedula *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.identificationClient = value;
           });
         },
       ),
@@ -79,6 +79,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
               onChanged: (String? newValue) {
                 setState(() {
                   dropdownValue = newValue!;
+                  bloc!.userSingleton!.typeIdentification = newValue;
                 });
               },
               items: typeDocument.map<DropdownMenuItem<String>>((String value) {
@@ -98,7 +99,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Nombre *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.nameClient = value;
           });
         },
       ),
@@ -109,7 +110,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Apellido *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.lastNameClient = value;
           });
         },
       ),
@@ -145,7 +146,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Direccion *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.addressClient = value;
           });
         },
       ),
@@ -156,7 +157,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Telefono *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.phoneNumberClient = value;
           });
         },
       ),
@@ -167,7 +168,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Email *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.email = value;
           });
         },
       ),
@@ -196,6 +197,28 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
           ),
         ],
       ),
+       TextFormFielWidget(
+        controller: profession,
+        error: "",
+        icon: Icons.list_alt,
+        labelText: 'Profesion *',
+        onChanged: (value) {
+          setState(() {
+            bloc!.userSingleton!.profession = value;
+          });
+        },
+      ),
+      TextFormFielWidget(
+        controller: expenses,
+        error: "",
+        icon: Icons.list_alt,
+        labelText: 'Antiguedad en la empresa*',
+        onChanged: (value) {
+          setState(() {
+            bloc!.userSingleton!.expenses = double.parse(value);
+          });
+        },
+      ),
       TextFormFielWidget(
         controller: typeContract,
         error: "",
@@ -203,7 +226,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Tipo de contrado *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.typeContract = value;
           });
         },
       ),
@@ -214,7 +237,7 @@ class _AddUserState extends BaseState<AddUser, UserBloc> {
         labelText: 'Salario *',
         onChanged: (value) {
           setState(() {
-            print(value);
+            bloc!.userSingleton!.salary = int.parse(value);
           });
         },
       ),
