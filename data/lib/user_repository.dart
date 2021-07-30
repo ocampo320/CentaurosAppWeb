@@ -7,6 +7,7 @@ mixin UserApiSourcer {
   Future<Result<User>> getUserByCc (String cc);
   Future<Result<User>> addUser(User user);
 
+  Future<Result<User>>  deleteUser(String userIde);
 }
  
 class UserRepositoryAdatter implements UserRepository{
@@ -28,6 +29,11 @@ class UserRepositoryAdatter implements UserRepository{
   @override
   Future<Result<User>> addUser(User user) {
     return userApiSourcer!.addUser(user);
+  }
+
+  @override
+  Future<Result<User>>  deleteUser(String userIde) {
+   return userApiSourcer!.deleteUser(userIde);
   }
 
  

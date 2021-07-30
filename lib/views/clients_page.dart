@@ -50,7 +50,7 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
       isLoading = true;
     });
     await Future.delayed(Duration(seconds: 2));
-    buildMovieShimmer();
+    CircularProgressIndicator();
     bloc!.getUser();
     setState(() {
       isLoading = false;
@@ -109,7 +109,26 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
                                     builder: (context, snapshot) {
                                       return (snapshot.data == null)
                                           ? Center(
-                                              child: buildMovieShimmer(),
+                                              child: ListTile(
+                                                leading: CustomWidget.circular(
+                                                    height: 64, width: 64),
+                                                title: Align(
+                                                  alignment:
+                                                      Alignment.centerLeft,
+                                                  child:
+                                                      CustomWidget.rectangular(
+                                                    height: 16,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.3,
+                                                  ),
+                                                ),
+                                                subtitle:
+                                                    CustomWidget.rectangular(
+                                                        height: 14),
+                                              ),
                                             )
                                           : ExpansionTileCard(
                                               baseColor: Colors.amberAccent,
@@ -183,101 +202,108 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
                                                       ),
                                                     ],
                                                   ),
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            right: 10,
-                                                            left: 10),
-                                                    child: ButtonBar(
-                                                      alignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      buttonHeight: 52.0,
-                                                      buttonMinWidth: 90.0,
-                                                      children: <Widget>[
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            // showList();
-                                                          },
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: <Widget>[
-                                                              TextButton(
-                                                                onPressed: () {
-                                                                  bloc!
-                                                                      .getUserByCc(snapshot
-                                                                          .data![
-                                                                              index]
-                                                                          .identificationClient
-                                                                          .toString())
-                                                                      .then(
-                                                                          (value) {
-                                                                    _showMyDialogDataUser(
-                                                                        value
-                                                                            .data!);
-                                                                  });
-                                                                },
-                                                                child: Column(
-                                                                  mainAxisAlignment:
-                                                                      MainAxisAlignment
-                                                                          .spaceBetween,
-                                                                  children: <
-                                                                      Widget>[
-                                                                    Row(
-                                                                      children: [
-                                                                        Icon(Icons
-                                                                            .arrow_downward),
-                                                                        Padding(
-                                                                          padding:
-                                                                              const EdgeInsets.symmetric(vertical: 2.0),
-                                                                        ),
-                                                                        Text(
-                                                                          'Ver',
-                                                                          style:
-                                                                              TextStyle(fontSize: 25),
-                                                                        ),
-                                                                      ],
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        TextButton(
-                                                          onPressed: () {
-                                                            //  widget.onPressBtnDelete();
-                                                          },
-                                                          child: Column(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            children: <Widget>[
-                                                              Row(
-                                                                children: [
-                                                                  Icon(Icons
-                                                                      .delete),
-                                                                  Padding(
-                                                                    padding: const EdgeInsets
-                                                                            .symmetric(
-                                                                        vertical:
-                                                                            2.0),
-                                                                  ),
-                                                                  Text(
-                                                                    'Eliminar',
-                                                                    style: TextStyle(
-                                                                        fontSize:
-                                                                            25),
+                                                  ButtonBar(
+                                                    alignment: MainAxisAlignment
+                                                        .spaceBetween,
+                                                    buttonHeight: 52.0,
+                                                    buttonMinWidth: 90.0,
+                                                    children: <Widget>[
+                                                      TextButton(
+                                                        onPressed: () {
+                                                          // showList();
+                                                        },
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .spaceBetween,
+                                                          children: <Widget>[
+                                                            TextButton(
+                                                              onPressed: () {
+                                                                bloc!
+                                                                    .getUserByCc(snapshot
+                                                                        .data![
+                                                                            index]
+                                                                        .identificationClient
+                                                                        .toString())
+                                                                    .then(
+                                                                        (value) {
+                                                                  _showMyDialogDataUser(
+                                                                      value
+                                                                          .data!);
+                                                                });
+                                                              },
+                                                              child: Column(
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .spaceBetween,
+                                                                children: <
+                                                                    Widget>[
+                                                                  Row(
+                                                                    children: [
+                                                                      Icon(Icons
+                                                                          .arrow_downward),
+                                                                      Padding(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(vertical: 2.0),
+                                                                      ),
+                                                                      Text(
+                                                                        'Ver',
+                                                                        style: TextStyle(
+                                                                            fontSize:
+                                                                                25),
+                                                                      ),
+                                                                    ],
                                                                   ),
                                                                 ],
                                                               ),
-                                                            ],
-                                                          ),
+                                                            ),
+                                                          ],
                                                         ),
-                                                      ],
-                                                    ),
+                                                      ),
+                                                      StreamBuilder<List<User>>(
+                                                          stream: bloc!
+                                                              .listUserData,
+                                                          builder: (context,
+                                                              snapshot) {
+                                                            return (snapshot
+                                                                        .data ==
+                                                                    null)
+                                                                ? Center(
+                                                                    child:
+                                                                        CircularProgressIndicator(),
+                                                                  )
+                                                                : TextButton(
+                                                                    onPressed:
+                                                                        () {
+                                                                      _showialogDelete(snapshot
+                                                                          .data![
+                                                                              index]
+                                                                          .identificationClient!);
+                                                                    },
+                                                                    child:
+                                                                        Column(
+                                                                      mainAxisAlignment:
+                                                                          MainAxisAlignment
+                                                                              .spaceBetween,
+                                                                      children: <
+                                                                          Widget>[
+                                                                        Row(
+                                                                          children: [
+                                                                            Icon(Icons.delete),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.symmetric(vertical: 2.0),
+                                                                            ),
+                                                                            Text(
+                                                                              'Eliminar',
+                                                                              style: TextStyle(fontSize: 25),
+                                                                            ),
+                                                                          ],
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  );
+                                                          }),
+                                                    ],
                                                   )
                                                 ]);
                                     }),
@@ -321,11 +347,10 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
                 TextButton(
                   child: Text('Agregar'),
                   onPressed: () {
-                    setState(() {
-                      bloc!.mapToUser(bloc!.userSingleton).then((value) {
-                        loadData();
-                        Navigator.of(context).pop();
-                      });
+                    setState(() async {
+                      bloc!.mapToUser(bloc!.userSingleton);
+                      await loadData();
+                      Navigator.of(context).pop();
                     });
                   },
                 ),
@@ -347,146 +372,199 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
     User user,
   ) async {
     return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            insetPadding: EdgeInsets.all(10),
+            title: Text(
+                'Informacion de ${user.nameClient} ${user.lastNameClient}'),
+            content: SingleChildScrollView(
+              child: Container(
+                width: 500,
+                child: Center(
+                  child: Stack(
+                    children: [
+                      StreamBuilder<User>(
+                          stream: bloc!.userData,
+                          builder: (context, snapshot) {
+                            return (snapshot.data == null)
+                                ? Card(
+                                    child: Center(
+                                      child: Container(
+                                        child: buildMovieShimmer(),
+                                      ),
+                                    ),
+                                  )
+                                : Card(
+                                    borderOnForeground: true,
+                                    margin:
+                                        EdgeInsets.only(top: 20.0, bottom: 0.0),
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30)),
+                                    color: Colors.cyan[50],
+                                    child: FlipCard(
+                                      direction: FlipDirection.HORIZONTAL,
+                                      speed: 1000,
+                                      onFlipDone: (status) {
+                                        print(status);
+                                      },
+                                      front: Container(
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8.0)),
+                                        ),
+                                        child: Column(
+                                          // mainAxisAlignment: MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            ListTile(
+                                              hoverColor:
+                                                  Color.fromARGB(1, 1, 1, 1),
+                                              dense: false,
+                                              subtitle: Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.end,
+                                                children: [
+                                                  Text(
+                                                      "Numero de docuemnto : ${user.identificationClient}"),
+                                                  Text(
+                                                      "Tipo de documento : ${user.typeIdentification}"),
+                                                  Text(
+                                                      "Antigedad en en la empresa: ${user.expenses} años"),
+                                                  Text(
+                                                      "Salario actual: ${user.salary} pesos"),
+                                                  Text(
+                                                      "Tipo de contrato: ${user.typeContract}"),
+                                                ],
+                                              ),
+                                              leading: CircleAvatar(
+                                                child:
+                                                    Icon(Icons.device_unknown),
+                                              ),
+                                            ),
+                                            Text('Mas informacion...',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1),
+                                          ],
+                                        ),
+                                      ),
+                                      back: Container(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: <Widget>[
+                                            ListTile(
+                                              hoverColor:
+                                                  Color.fromARGB(1, 1, 1, 1),
+                                              dense: false,
+                                              subtitle: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Text("Nombre de equipo: ")
+                                                    ],
+                                                  ),
+                                                ],
+                                              ),
+                                              leading: CircleAvatar(
+                                                child:
+                                                    Icon(Icons.device_unknown),
+                                              ),
+                                            ),
+                                            Text('Mas informacion...',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyText1),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                          }),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    child: Text('Salir'),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+        });
+  }
+
+  Widget buildMovieShimmer() => Container(
+        child: ListTile(
+          leading: CustomWidget.circular(height: 64, width: 64),
+          title: Align(
+            alignment: Alignment.centerLeft,
+            child: CustomWidget.rectangular(
+              height: 16,
+              width: MediaQuery.of(context).size.width * 0.3,
+            ),
+          ),
+          subtitle: CustomWidget.rectangular(height: 14),
+        ),
+      );
+
+  Future<void> _showialogDelete(String id) async {
+    return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return StreamBuilder<User>(
-            stream: bloc!.userData,
-            builder: (context, snapshot) {
-              return (snapshot.data == null)
-                  ? Center(
-                      child: Container(
-                        child: CircularProgressIndicator(),
-                      ),
-                    )
-                  : AlertDialog(
-                      insetPadding: EdgeInsets.all(10),
-                      title: Text(
-                          'Informacion de ${user.nameClient} ${user.lastNameClient}'),
-                      content: SingleChildScrollView(
-                        child: Container(
-                          width: 500,
-                          child: Center(
-                            child: Stack(
-                              children: [
-                                Card(
-                                  borderOnForeground: true,
-                                  margin:
-                                      EdgeInsets.only(top: 20.0, bottom: 0.0),
-                                  shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30)),
-                                  color: Colors.cyan[50],
-                                  child: FlipCard(
-                                    direction: FlipDirection.HORIZONTAL,
-                                    speed: 1000,
-                                    onFlipDone: (status) {
-                                      print(status);
-                                    },
-                                    front: Container(
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(8.0)),
-                                      ),
-                                      child: Column(
-                                        // mainAxisAlignment: MainAxisAlignment.start,
-                                        children: <Widget>[
-                                          ListTile(
-                                            hoverColor:
-                                                Color.fromARGB(1, 1, 1, 1),
-                                            dense: false,
-                                            subtitle: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.end,
-                                              children: [
-                                                Text(
-                                                    "Numero de docuemnto : ${user.identificationClient}"),
-                                                Text(
-                                                    "Tipo de documento : ${user.typeIdentification}"),
-                                                Text(
-                                                    "Antigedad en en la empresa: ${user.expenses} años"),
-                                                Text(
-                                                    "Salario actual: ${user.salary} pesos"),
-                                                Text(
-                                                    "Tipo de contrato: ${user.typeContract}"),
-                                              ],
-                                            ),
-                                            leading: CircleAvatar(
-                                              child: Icon(Icons.device_unknown),
-                                            ),
-                                          ),
-                                          Text('Mas informacion...',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1),
-                                        ],
-                                      ),
-                                    ),
-                                    back: Container(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: <Widget>[
-                                          ListTile(
-                                            hoverColor:
-                                                Color.fromARGB(1, 1, 1, 1),
-                                            dense: false,
-                                            subtitle: Column(
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text("Nombre de equipo: ")
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                            leading: CircleAvatar(
-                                              child: Icon(Icons.device_unknown),
-                                            ),
-                                          ),
-                                          Text('Mas informacion...',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyText1),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ),
-                      actions: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            TextButton(
-                              child: Text('Salir'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
-                        ),
-                      ],
-                    );
-            });
+        return AlertDialog(
+          insetPadding: EdgeInsets.all(10),
+          title: Container(
+              width: 500,
+              // height: 200,
+              child: Icon(
+                Icons.error_outline,
+                size: 70,
+              )),
+          content: SingleChildScrollView(
+            child: Center(
+                child: Text('Esta segur@ que desea eliminar el cliente!!!')),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton(
+                  child: Text('Aceptar'),
+                  onPressed: () {
+                    setState(() async {
+                      bloc!.deleteUser(id);
+                      await loadData();
+                      Navigator.of(context).pop();
+                    });
+                  },
+                ),
+                TextButton(
+                  child: Text('Cancelar'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            ),
+          ],
+        );
       },
     );
   }
 
-  Widget buildMovieShimmer() => ListTile(
-        leading: CustomWidget.circular(height: 64, width: 64),
-        title: Align(
-          alignment: Alignment.centerLeft,
-          child: CustomWidget.rectangular(
-            height: 16,
-            width: MediaQuery.of(context).size.width * 0.3,
-          ),
-        ),
-        subtitle: CustomWidget.rectangular(height: 14),
-      );
   @override
   UserBloc getBlocInstance() {
     return UserBloc(

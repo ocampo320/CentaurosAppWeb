@@ -22,7 +22,7 @@ class UserApiSourceImpl extends ApiBaseSource implements UserApiSourcer {
 
   @override
   Future<Result<List<User>>> getUser() async {
-    var url = 'https://centauros.herokuapp.com/centauro/user/users';
+    var url = '$baseUrl/user/users';
     return await get<List<User>>(
       url,
       (value) {
@@ -38,7 +38,7 @@ class UserApiSourceImpl extends ApiBaseSource implements UserApiSourcer {
 
   @override
   Future<Result<User>> getUserByCc(String cc) {
-    var url = 'https://centauros.herokuapp.com/centauro/user/id/$cc';
+    var url = '$baseUrl/user/id/$cc';
     return get<User>(url, (value) {
       print("Datos de usuario $value");
       return User.fromJson(value);
@@ -47,14 +47,24 @@ class UserApiSourceImpl extends ApiBaseSource implements UserApiSourcer {
 
   @override
   Future<Result<User>> addUser(User user) {
-    var url = 'https://centauros.herokuapp.com/centauro/user/add';
-    return post<User>(url, 
-    user.toJson(),
-    (value) {
-      var response=User();
+    var url = '$baseUrl/user/add';
+    return post<User>(url, user.toJson(), (value) {
+      var response = User();
       print("Se guardo el usuario ${user.toJson()}");
       return response;
     });
-    
+  }
+
+ 
+
+  
+
+  @override
+  Future<Result<User>> deleteUser(String cc) {
+    var url = '$baseUrl/user/delete/id/$cc';
+    return get<User>(url, (value) {
+      print("Datos de usuario $value");
+      return User.fromJson(value);
+    });
   }
 }

@@ -157,4 +157,27 @@ class ApiBaseSource {
     }
     return headers;
   }
+
+
+  Future<Result<T>> delete<T>(String url, T Function(dynamic value) mapperFunction,
+      {Map<String, String>? headers}) async {
+    try {
+      var connectivityResult = await connectivity!.checkConnectivity();
+      if (connectivityResult == ConnectivityResult.none) {
+        return Result<T>.error(message: L10NConstants.internetNotAvailable);
+      }
+      headers = await getHeaders(headers);
+      headers[HttpHeaders.contentTypeHeader] = 'application/json';
+      headers[HttpHeaders.acceptHeader] = 'application/json';
+      log(url, name: 'url');
+      log('Delete', name: 'method');
+      log(headers.toString(), name: 'headers');
+      var response =
+          await client.delete(Uri.parse(url), headers: headers).timeout(timeout);
+      return await _manageResponse(response, mapperFunction);
+    } catch (ex) {
+      log(ex.toString(), name: 'error');
+      return Result<T>.error(message: L10NConstants.defaultError);
+    }
+  }
 }

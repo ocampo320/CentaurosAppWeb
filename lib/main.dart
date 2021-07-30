@@ -8,7 +8,7 @@ import 'app/centauros_app.dart';
 void main() {
 WidgetsFlutterBinding.ensureInitialized();
 var appSettings = AppSettings(
- apiUrl: 'https://centauros.herokuapp.com/',
+ apiUrl: 'https://centauros.herokuapp.com/centauro',
 );
 Application().appSettings = appSettings;
 Application().environment = '';
