@@ -50,7 +50,6 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
       isLoading = true;
     });
     await Future.delayed(Duration(seconds: 2));
-    CircularProgressIndicator();
     bloc!.getUser();
     setState(() {
       isLoading = false;
@@ -79,7 +78,7 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
               padding: const EdgeInsets.all(28.0),
               child: OutlinedButton(
                 onPressed: () {
-                  _showMyDialog();
+                  _showDialogAdd();
                 },
                 child: const Text(
                   'Add client',
@@ -318,7 +317,7 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
     );
   }
 
-  Future<void> _showMyDialog() async {
+  Future<void> _showDialogAdd() {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -349,7 +348,9 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
                   onPressed: () {
                     setState(() async {
                       bloc!.mapToUser(bloc!.userSingleton);
-                      await loadData();
+                      await _showLoading();
+
+                      //  await loadData();
                       Navigator.of(context).pop();
                     });
                   },
@@ -546,7 +547,7 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
                   onPressed: () {
                     setState(() async {
                       bloc!.deleteUser(id);
-                      await loadData();
+                      await _showLoading();
                       Navigator.of(context).pop();
                     });
                   },
@@ -560,6 +561,26 @@ class _ClientPageState extends BaseState<ClientPage, UserBloc> {
               ],
             ),
           ],
+        );
+      },
+    );
+  }
+
+  Future<void> _showLoading() async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (context) {
+        Future.delayed(Duration(seconds: 5), () {
+          bloc!.getUser();
+
+          Navigator.of(context).pop(true);
+        });
+        return AlertDialog(
+          insetPadding: EdgeInsets.all(10),
+          content: SingleChildScrollView(
+              child: Center(child: CircularProgressIndicator()),
+            ),
         );
       },
     );
